@@ -33,9 +33,9 @@ public class SolarSystemMain extends JPanel
           canvas.setPreferredSize(new Dimension(1200, 800));
           add(canvas);
             planets[0] = new Planet(600, 450, -4.7, -3, 999, 8, Color.GRAY, 1000);
-            planets[1] = new Planet(752, 400, 0, 2.5, 999, 12, Color.RED, 1000);
-            planets[2] = new Planet(600, 150, 1.8, 0, 999, 11, Color.PINK, 2000);
-            planets[3] = new Planet(600, -100, 1.2, 0, 999, 7, Color.BLUE, 2000);
+            planets[1] = new Planet(752, 400, 0, 2.5, 999, 12, Color.PINK, 1000);
+            planets[2] = new Planet(600, 150, 1.8, 0, 999, 11, Color.BLUE, 2000);
+            planets[3] = new Planet(600, -100, 1.2, 0, 999, 7, Color.RED, 2000); 
             planets[4] = new Planet(0, 400, 0, -1.3, 999, 13, Color.CYAN, 2000);
             planets[5] = s;
             
@@ -47,28 +47,30 @@ public class SolarSystemMain extends JPanel
                                 "Seasonal Range: -130°C to 380°C",
                                 "Average Day Length: 3.1 Earth Days",
                                 "Terrestrial planet with metallic core"},
-                            {"Mars","Diameter: " + planets[1].diameter*1058+ " kilometers",
-                                "Mass: 1.39 Earth Mass",
+                            {"Venus","Diameter: " + planets[1].diameter*1058+ " kilometers",
+                                	 "Mass: 1.82 Earth Mass",
+                                     "Atmosphere Type: Medium Thin",
+                                     "Average Temperature: -70°C",
+                                     "Seasonal Range: -150°C to 20°C",
+                                     "Average Day Length: .9 Earth Days",
+                                     "Terrestrial planet with metallic core"
+                                },
+                            { "Earth","Diameter: " + planets[2].diameter*1058+ " kilometers",
+                                    "Mass: 1 Earth Mass",
+                                    "Atmosphere Type: Thin",
+                                    "Average Temperature: -90°C",
+                                    "Seasonal Range: -190°C to °15C",
+                                    "Average Day Length: 1 Earth Day",
+                                    "Wandering Dwarf Planet with metallic core"	
+                               },
+                            { "Mars","Diameter: " + planets[3].diameter*1058+ " kilometers",
+                               	"Mass: 1.39 Earth Mass",
                                 "Atmosphere Type: Medium Thick",
                                 "Average Temperature: 20°C",
                                 "Seasonal Range: -90°C to 60°C",
                                 "Average Day Length: .8 Earth Days",
                                 "Terrestrial planet with metallic core",
                                 "Supports life"},
-                            {"Venus","Diameter: " + planets[2].diameter*1058+ " kilometers",
-                                "Mass: 1.82 Earth Mass",
-                                "Atmosphere Type: Medium Thin",
-                                "Average Temperature: -70°C",
-                                "Seasonal Range: -150°C to 20°C",
-                                "Average Day Length: .9 Earth Days",
-                                "Terrestrial planet with metallic core"},
-                            {"Earth","Diameter: " + planets[3].diameter*1058+ " kilometers",
-                                "Mass: 1 Earth Mass",
-                                "Atmosphere Type: Thin",
-                                "Average Temperature: -90°C",
-                                "Seasonal Range: -190°C to °15C",
-                                "Average Day Length: 1 Earth Day",
-                                "Wandering Dwarf Planet with metallic core"},
                             {"Neptune","Diameter: " + planets[4].diameter*1058+ " kilometers",
                                 "Mass: 14.9 Earth Mass",
                                 "Atmosphere Type: Thin",
@@ -82,10 +84,10 @@ public class SolarSystemMain extends JPanel
                                 "Yellow Dwarf, Main-sequence Star"},
                          };
           
-          bimgs[0] = loadImage("pluto1.jpg");
-          bimgs[1] = loadImage("mars2.jpg");
-          bimgs[2] = loadImage("Venus.jpg");
-          bimgs[3] = loadImage("bluemarble.jpg");
+          bimgs[0] = loadImage("mercury1.jpg");
+          bimgs[1] = loadImage("Venus.jpg");
+          bimgs[2] = loadImage("bluemarble.jpg");
+          bimgs[3] = loadImage("mars2.jpg");
           bimgs[4] = loadImage("neptune.jpg");
           bimgs[5] = loadImage("sun.jpg");
           
@@ -208,11 +210,11 @@ public class SolarSystemMain extends JPanel
       
       @Override
       public void keyReleased(KeyEvent e) { 
-          if(e.getKeyCode() == KeyEvent.VK_P)
+          if(e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_SPACE)
           {
               paused = !paused;
           }
-          if(e.getKeyCode() == KeyEvent.VK_Q)
+          if(e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_ESCAPE)
           {
               System.exit(0);
           }
