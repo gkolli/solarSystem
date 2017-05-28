@@ -12,7 +12,7 @@ Program Features:
 
 Keyboard Shortcuts: 
  * P -> Pause/Play
- * + -> Zoom In
- * - -> Zoom Out
+ * PLUS KEY -> Zoom In
+ * MINUS KEY -> Zoom Out
  * Q -> Quit
  
