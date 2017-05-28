@@ -12,8 +12,8 @@ Program Features:
 * View Near-Accurate Orbit Paths of Planets, including instantaneous distance of planet from the Sun 
 
 Keyboard Shortcuts: 
- * P -> Pause/Play
+ * P , SPACEBAR -> Pause/Play
  * PLUS KEY -> Zoom In
  * MINUS KEY -> Zoom Out
- * Q -> Quit
+ * Q , ESC -> Quit
  
