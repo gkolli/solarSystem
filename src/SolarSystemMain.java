@@ -210,11 +210,11 @@ public class SolarSystemMain extends JPanel
       
       @Override
       public void keyReleased(KeyEvent e) { 
-          if(e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_SPACE)
+          if(e.getKeyCode() == KeyEvent.VK_SPACE)
           {
               paused = !paused;
           }
-          if(e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_ESCAPE)
+          if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
           {
               System.exit(0);
           }
