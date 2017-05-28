@@ -84,12 +84,12 @@ public class SolarSystemMain extends JPanel
                                 "Yellow Dwarf, Main-sequence Star"},
                          };
           
-          bimgs[0] = loadImage("mercury1.jpg");
-          bimgs[1] = loadImage("Venus.jpg");
-          bimgs[2] = loadImage("bluemarble.jpg");
-          bimgs[3] = loadImage("mars2.jpg");
-          bimgs[4] = loadImage("neptune.jpg");
-          bimgs[5] = loadImage("sun.jpg");
+          bimgs[0] = loadImage("src/mercury1.jpg");
+          bimgs[1] = loadImage("src/Venus.jpg");
+          bimgs[2] = loadImage("src/bluemarble.jpg");
+          bimgs[3] = loadImage("src/mars2.jpg");
+          bimgs[4] = loadImage("src/neptune.jpg");
+          bimgs[5] = loadImage("src/sun.jpg");
           
           
           setBackground(Color.BLACK);
