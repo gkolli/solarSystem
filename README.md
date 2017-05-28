@@ -13,7 +13,7 @@ Program Features:
 
 Keyboard Shortcuts: 
  * SPACEBAR -> Pause/Play
- * -> To view/toggle specific planet/Sun info, pause (SpaceBar) and mouse-click on the planet/Sun 
+ * SPACEBAR then MOUSE-CLICK -> View/Toggle Specific Planet/Sun Info 
  * PLUS KEY -> Zoom In
  * MINUS KEY -> Zoom Out
  * ESC -> Quit
