@@ -2,8 +2,8 @@
 
 *Model of Solar System using Java*
 
-* Naren Kolli
-* APCS Final Project
+_Naren Kolli_
+_APCS Final Project_
 
 Program Features:
 * Near-Scale Model of the Solar System using Java2D 
