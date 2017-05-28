@@ -1,7 +1,7 @@
 # SolarSystem
 
-Model of Solar System using Java
-Naren Kolli
+*Model of Solar System using Java*
+_Naren Kolli
 APCS Final Project
 
 Program Features:
