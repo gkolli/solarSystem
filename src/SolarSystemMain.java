@@ -20,7 +20,7 @@ public class SolarSystemMain extends JPanel
     String[][] planetDesc;
     int selected = -1;
     
-    final static int DELAY = 10; //in milliseconds
+    final static int DELAY = 50; //in milliseconds
     /**
      * Constructor for objects of class SolarSystemMain
      */
@@ -36,7 +36,7 @@ public class SolarSystemMain extends JPanel
             planets[4] = new Planet(600, -100, 1.2, 0, 999, 20, new Color(255,140,0), 2000); //Jupiter
             planets[5] = new Planet(600, -150, 1.2, 0, 999, 15, new Color(112,128,144), 2000); //Saturn
             planets[6] = new Planet(600, -175, 1.2, 0, 999, 15, new Color(196,233,238), 2000); //Uranus
-            planets[7] = new Planet(0, 400, 0, -1.2, 999, 13, Color.CYAN, 2000);//Neptune
+            planets[7] = new Planet(0, 400, 0, -1.2, 999, 13, new Color(66, 98, 243), 2000);//Neptune
             planets[8] = new Planet(600, 400, .1, 0, 1000, 30, Color.ORANGE, 0);//Sun
             
             planetDesc = new String[][]{ 
