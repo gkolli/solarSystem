@@ -29,14 +29,14 @@ public class SolarSystemMain extends JPanel
           canvas = new GameCanvas();
           canvas.setPreferredSize(new Dimension(1200, 800));
           add(canvas);
-            planets[0] = new Planet(600, 450, -4.7, 0, 999, 8, Color.GRAY, 1000); //Mercury
-            planets[1] = new Planet(752, 400, 0, 2.5, 999, 12, Color.PINK, 1000); //Venus
-            planets[2] = new Planet(600, 150, 1.8, 0, 999, 11, Color.BLUE, 2000); //Earth
-            planets[3] = new Planet(650, -50, 1.2, 0, 999, 7, Color.RED, 2000); //Mars
-            planets[4] = new Planet(600, -100, 1.2, 0, 999, 20, new Color(255,140,0), 2000); //Jupiter
-            planets[5] = new Planet(600, -150, 1.2, 0, 999, 15, new Color(112,128,144), 2000); //Saturn
-            planets[6] = new Planet(600, -175, 1.2, 0, 999, 15, new Color(196,233,238), 2000); //Uranus
-            planets[7] = new Planet(0, 400, 0, -1.2, 999, 13, new Color(66, 98, 243), 2000);//Neptune
+            planets[0] = new Planet(600, 450, -4.7, 0, 9, 8, Color.GRAY, 1000); //Mercury
+            planets[1] = new Planet(752, 400, 0, 2.5, 900, 12, Color.PINK, 1000); //Venus
+            planets[2] = new Planet(600, 150, 1.8, 0, 900, 11, Color.BLUE, 2000); //Earth
+            planets[3] = new Planet(650, -50, 1.2, 0, 900, 7, Color.RED, 2000); //Mars
+            planets[4] = new Planet(600, -100, 1.2, 0, 900, 20, new Color(255,140,0), 2000); //Jupiter
+            planets[5] = new Planet(600, -150, 1.2, 0, 900, 15, new Color(112,128,144), 2000); //Saturn
+            planets[6] = new Planet(600, -175, 1.2, 0, 900, 15, new Color(196,233,238), 2000); //Uranus
+            planets[7] = new Planet(0, 400, 0, -1.2, 900, 13, new Color(66, 98, 243), 2000);//Neptune
             planets[8] = new Planet(600, 400, .1, 0, 1000, 30, Color.ORANGE, 0);//Sun
             
             planetDesc = new String[][]{ 
@@ -221,6 +221,16 @@ public class SolarSystemMain extends JPanel
                  g.drawString(planetDesc[selected][i], 0, 210+i*30);
              }
          }
+         planets[0].dispDesc(g,scale);
+         planets[1].dispDesc(g,scale);
+         planets[2].dispDesc(g,scale);
+         planets[3].dispDesc(g,scale);
+         planets[4].dispDesc(g,scale);
+         planets[5].dispDesc(g,scale);
+         planets[6].dispDesc(g,scale);
+         planets[7].dispDesc(g,scale);
+         planets[8].dispDesc(g,scale);
+
       }
       // KeyEvent handlers
       @Override
