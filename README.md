@@ -13,7 +13,9 @@ Program Features:
 
 Keyboard Shortcuts: 
  * SPACEBAR -> Pause/Play
- * SPACEBAR then MOUSE-CLICK -> View/Toggle Specific Planet/Sun Info 
+ * MOUSE-CLICK -> View/Toggle Specific Planet/Sun Info 
+ 	*-> If you have trouble clicking on a planet/Sun, pause the model (SPACEBAR) and then click.*
+ 	    *Unpause (SPACEBAR) to view planets orbiting again.*
  * PLUS KEY -> Zoom In
  * MINUS KEY -> Zoom Out
  * ESC -> Quit
