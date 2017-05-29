@@ -9,16 +9,14 @@ import java.io.File;
 
 public class SolarSystemMain extends JPanel
 {
-    // instance variables - replace the example below with your own
     GameCanvas canvas;
-    Planet[] planets = new Planet[6];
-    boolean[] planetDescVisible = new boolean[6];
-    //x, y, velX, velY, mass, diameter, color, orbitspeed
-    //Planet m1 = new Moon(780, 400, 0, 2.6, 99, 6, new Color(255,0,25), 200);
-    Planet s = new Planet(600, 400, .1, 0, 1000, 25, Color.ORANGE, 0);
+    Planet[] planets = new Planet[9];
+    boolean[] planetDescVisible = new boolean[9];
+    //x, y, velX, velY, mass, diameter, color, orbit-speed
+    
     double scale = 1;
     boolean paused = false;
-    BufferedImage[] bimgs = new BufferedImage[6];
+    BufferedImage[] bimgs = new BufferedImage[9];
     String[][] planetDesc;
     int selected = -1;
     
@@ -28,16 +26,18 @@ public class SolarSystemMain extends JPanel
      */
     public SolarSystemMain()
     {
-          //img1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("Pluto.gif")).getImage();
           canvas = new GameCanvas();
           canvas.setPreferredSize(new Dimension(1200, 800));
           add(canvas);
-            planets[0] = new Planet(600, 450, -4.7, -3, 999, 8, Color.GRAY, 1000);
-            planets[1] = new Planet(752, 400, 0, 2.5, 999, 12, Color.PINK, 1000);
-            planets[2] = new Planet(600, 150, 1.8, 0, 999, 11, Color.BLUE, 2000);
-            planets[3] = new Planet(600, -100, 1.2, 0, 999, 7, Color.RED, 2000); 
-            planets[4] = new Planet(0, 400, 0, -1.3, 999, 13, Color.CYAN, 2000);
-            planets[5] = s;
+            planets[0] = new Planet(600, 450, -4.7, 0, 999, 8, Color.GRAY, 1000); //Mercury
+            planets[1] = new Planet(752, 400, 0, 2.5, 999, 12, Color.PINK, 1000); //Venus
+            planets[2] = new Planet(600, 150, 1.8, 0, 999, 11, Color.BLUE, 2000); //Earth
+            planets[3] = new Planet(650, -50, 1.2, 0, 999, 7, Color.RED, 2000); //Mars
+            planets[4] = new Planet(600, -100, 1.2, 0, 999, 20, new Color(255,140,0), 2000); //Jupiter
+            planets[5] = new Planet(600, -150, 1.2, 0, 999, 15, new Color(112,128,144), 2000); //Saturn
+            planets[6] = new Planet(600, -175, 1.2, 0, 999, 15, new Color(196,233,238), 2000); //Uranus
+            planets[7] = new Planet(0, 400, 0, -1.2, 999, 13, Color.CYAN, 2000);//Neptune
+            planets[8] = new Planet(600, 400, .1, 0, 1000, 30, Color.ORANGE, 0);//Sun
             
             planetDesc = new String[][]{ 
                             {"Mercury","Diameter: " + planets[0].diameter*1058+ " kilometers",
@@ -71,14 +71,29 @@ public class SolarSystemMain extends JPanel
                                 "Average Day Length: .8 Earth Days",
                                 "Terrestrial planet with metallic core",
                                 "Supports life"},
-                            {"Neptune","Diameter: " + planets[4].diameter*1058+ " kilometers",
+                            {"Jupiter","Diameter: " + planets[4].diameter*1058+ " kilometers",
+                                    "Mass: 14.9 Earth Mass",
+                                    "Atmosphere Type: Thin",
+                                    "Average Temperature: -210°C",
+                                    "Seasonal Range: -225°C to -195°C",
+                                    "Average Day Length: .6 Earth Days",
+                                    "Gas Giant with dense gassy core"},
+                                {"Saturn","Diameter: " + planets[5].diameter*3058+ " kilometers",
+                                    "Mass: 300000 Earth Mass",
+                                    "Average Temperature: 5083°C",
+                                    "Yellow Dwarf, Main-sequence Star"}, 
+                                {"Uranus","Diameter: " + planets[6].diameter*3058+ " kilometers",
+                                        "Mass: 300000 Earth Mass",
+                                        "Average Temperature: 5083°C",
+                                        "Yellow Dwarf, Main-sequence Star"},
+                            {"Neptune","Diameter: " + planets[7].diameter*1058+ " kilometers",
                                 "Mass: 14.9 Earth Mass",
                                 "Atmosphere Type: Thin",
                                 "Average Temperature: -210°C",
                                 "Seasonal Range: -225°C to -195°C",
                                 "Average Day Length: .6 Earth Days",
                                 "Gas Giant with dense gassy core"},
-                            {"Sun","Diameter: " + planets[5].diameter*3058+ " kilometers",
+                            {"Sun","Diameter: " + planets[8].diameter*3058+ " kilometers",
                                 "Mass: 300000 Earth Mass",
                                 "Average Temperature: 5083°C",
                                 "Yellow Dwarf, Main-sequence Star"},
@@ -88,8 +103,11 @@ public class SolarSystemMain extends JPanel
           bimgs[1] = loadImage("Venus.jpg");
           bimgs[2] = loadImage("bluemarble.jpg");
           bimgs[3] = loadImage("mars.jpg");
-          bimgs[4] = loadImage("neptune.jpg");
-          bimgs[5] = loadImage("sun.jpg");
+          bimgs[4] = loadImage("jupiterNasa.jpg");
+          bimgs[5] = loadImage("saturn.jpg");
+          bimgs[6] = loadImage("uranus.jpg");
+          bimgs[7] = loadImage("neptune.jpg");
+          bimgs[8] = loadImage("sun.jpg");
           
           
           setBackground(Color.BLACK);
@@ -134,7 +152,7 @@ public class SolarSystemMain extends JPanel
                 //s.move();
                 for(int i = 0; i < planets.length-1; i++)
                 {
-                    planets[i].update(s.getX(),s.getY(),s.getMass());
+                    planets[i].update(planets[8].getX(),planets[8].getY(),planets[8].getMass());
                 }
             }
          // Refresh the display
@@ -184,7 +202,7 @@ public class SolarSystemMain extends JPanel
          //following code is for creating stars - will need to work on them pausing
          Random r = new Random();
          for(int count=0;count<=100;count++) {
-        	 g.setColor(Color.LIGHT_GRAY); 
+        	 g.setColor(Color.WHITE); 
         	 g.drawOval(r.nextInt(1500),r.nextInt(1500),1,1);
         	 }
          //

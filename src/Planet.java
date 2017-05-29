@@ -100,7 +100,7 @@ public class Planet
         g.setFont(new Font("Dialog", Font.PLAIN, 16));
         g.setColor(Color.MAGENTA);
         
-        g.drawString((Math.round(dist*100.0)/100.0) * 1000000 + " kilometers from the Sun", 
+        g.drawString((Math.round(dist*100.0)/100.0) * 1000000 + " km", 
                     diameter+(int)(600+(x-diameter/2-600)*scale), 16+(int)(400+(y-diameter/2-400)*scale)+diameter);
         
     }
