@@ -27,10 +27,10 @@ public class SolarSystemMain extends JPanel
     public SolarSystemMain()
     {
           canvas = new GameCanvas();
-          canvas.setPreferredSize(new Dimension(1200, 800));
+          canvas.setPreferredSize(new Dimension(1200, 1200));
           add(canvas);
             planets[0] = new Planet(600, 450, -4.7, 0, 9, 8, Color.GRAY, 1000); //Mercury
-            planets[1] = new Planet(752, 400, 0, 2.5, 900, 12, Color.PINK, 1000); //Venus
+            planets[1] = new Planet(752, 400, 0, 2.5, 900, 12, new Color(207,153,52), 1000); //Venus
             planets[2] = new Planet(600, 150, 1.8, 0, 900, 11, Color.BLUE, 2000); //Earth
             planets[3] = new Planet(650, -50, 1.2, 0, 900, 7, Color.RED, 2000); //Mars
             planets[4] = new Planet(600, -100, 1.2, 0, 900, 20, new Color(255,140,0), 2000); //Jupiter
@@ -221,6 +221,29 @@ public class SolarSystemMain extends JPanel
                  g.drawString(planetDesc[selected][i], 0, 210+i*30);
              }
          }
+         
+          
+          
+          String legend = "Solar System Model Legend";
+        	String zoomIn = "+ KEY  =  Zoom In";
+        	String zoomOut = "- KEY  =  Zoom Out";
+        	 String spaceBar = "SPACEBAR = Pause/Play";
+        	 String mouseClick =  "MOUSECLICK = More Info on Planet";
+        	 String planetNumberInfo = "*The Number beside planet is its";
+        	 String planetNumberInfoSecLine = "*distance from the Sun";
+        	String escape = "ESC = Quit Model";
+      
+        g.setFont(new Font("Dialog", Font.PLAIN, 10));
+        g.setColor(Color.WHITE);
+         g.drawString(legend,950,60);
+         g.drawString(zoomIn, 950, 100);
+         g.drawString(zoomOut, 950, 120);
+         g.drawString(spaceBar, 950, 140);
+         g.drawString(mouseClick, 950, 160);
+         g.drawString(planetNumberInfo, 950, 180);
+         g.drawString(planetNumberInfoSecLine,950,200);
+         g.drawString(escape, 950, 220);
+         
          planets[0].dispDesc(g,scale);
          planets[1].dispDesc(g,scale);
          planets[2].dispDesc(g,scale);
@@ -232,7 +255,6 @@ public class SolarSystemMain extends JPanel
          planets[8].dispDesc(g,scale);
 
       }
-      // KeyEvent handlers
       @Override
       public void keyPressed(KeyEvent e) { }
       
