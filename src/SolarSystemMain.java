@@ -4,133 +4,124 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.*;
 import javax.imageio.ImageIO;
-import java.util.Random;
 import java.io.File;
 
 public class SolarSystemMain extends JPanel
 {
-    GameCanvas canvas;
-    Planet[] planets = new Planet[9];
-    boolean[] planetDescVisible = new boolean[9];
-    //x, y, velX, velY, mass, diameter, color, orbit-speed
+    Model model;
+    CelestialBody[] celestialBodies = new CelestialBody[9];
+    boolean[] descriptionSeen = new boolean[9];
     
-    double scale = 1;
-    boolean paused = false;
+    final static int DELAY = 50; 
+    double size = 1;
     BufferedImage[] bimgs = new BufferedImage[9];
-    String[][] planetDesc;
-    int selected = -1;
-    
-    final static int DELAY = 50; //in milliseconds
-    /**
-     * Constructor for objects of class SolarSystemMain
-     */
+    String[][] description;
+    boolean stop = false;
+    int clicked = -1;
+        
     public SolarSystemMain()
     {
-          canvas = new GameCanvas();
-          canvas.setPreferredSize(new Dimension(1200, 1200));
-          add(canvas);
-            planets[0] = new Planet(600, 450, -4.7, 0, 9, 8, Color.GRAY, 1000); //Mercury
-            planets[1] = new Planet(752, 400, 0, 2.5, 900, 12, new Color(207,153,52), 1000); //Venus
-            planets[2] = new Planet(600, 150, 1.8, 0, 900, 11, Color.BLUE, 2000); //Earth
-            planets[3] = new Planet(650, -50, 1.2, 0, 900, 7, Color.RED, 2000); //Mars
-            planets[4] = new Planet(600, -100, 1.2, 0, 900, 20, new Color(255,140,0), 2000); //Jupiter
-            planets[5] = new Planet(600, -150, 1.2, 0, 900, 15, new Color(112,128,144), 2000); //Saturn
-            planets[6] = new Planet(600, -175, 1.2, 0, 900, 15, new Color(196,233,238), 2000); //Uranus
-            planets[7] = new Planet(0, 400, 0, -1.2, 900, 13, new Color(66, 98, 243), 2000);//Neptune
-            planets[8] = new Planet(600, 400, .1, 0, 1000, 30, Color.ORANGE, 0);//Sun
+          model = new Model();
+          model.setPreferredSize(new Dimension(1200, 1200));
+          add(model);
+          
+            celestialBodies[0] = new CelestialBody(600, 450, -4.7, 0, 9, 8, Color.GRAY, 1000); //Mercury
+            celestialBodies[1] = new CelestialBody(752, 400, 0, 2.5, 900, 12, new Color(207,153,52), 1000); //Venus
+            celestialBodies[2] = new CelestialBody(600, 150, 1.8, 0, 900, 11, Color.BLUE, 2000); //Earth
+            celestialBodies[3] = new CelestialBody(650, -50, 1.2, 0, 900, 7, Color.RED, 2000); //Mars
+            celestialBodies[4] = new CelestialBody(600, -100, 1.2, 0, 900, 20, new Color(255,140,0), 2000); //Jupiter
+            celestialBodies[5] = new CelestialBody(600, -150, 1.2, 0, 900, 15, new Color(112,128,144), 2000); //Saturn
+            celestialBodies[6] = new CelestialBody(600, -175, 1.2, 0, 900, 15, new Color(196,233,238), 2000); //Uranus
+            celestialBodies[7] = new CelestialBody(0, 400, 0, -1.2, 900, 13, new Color(66, 98, 243), 2000);//Neptune
             
-            planetDesc = new String[][]{ 
-                            {"Mercury","Diameter: " + planets[0].diameter*1058+ " kilometers",
-                                "Mass: .0773 Earth Mass",
-                                "Atmosphere Type: Thin",
-                                "Average Temperature: 180°C",
-                                "Seasonal Range: -130°C to 380°C",
-                                "Average Day Length: 3.1 Earth Days",
-                                "Terrestrial planet with metallic core"},
-                            {"Venus","Diameter: " + planets[1].diameter*1058+ " kilometers",
-                                	 "Mass: 1.82 Earth Mass",
-                                     "Atmosphere Type: Medium Thin",
-                                     "Average Temperature: -70°C",
-                                     "Seasonal Range: -150°C to 20°C",
-                                     "Average Day Length: .9 Earth Days",
-                                     "Terrestrial planet with metallic core"
-                                },
-                            { "Earth","Diameter: " + planets[2].diameter*1058+ " kilometers",
-                                    "Mass: 1 Earth Mass",
-                                    "Atmosphere Type: Thin",
-                                    "Average Temperature: -90°C",
-                                    "Seasonal Range: -190°C to °15C",
-                                    "Average Day Length: 1 Earth Day",
-                                    "Wandering Dwarf Planet with metallic core"	
-                               },
-                            { "Mars","Diameter: " + planets[3].diameter*1058+ " kilometers",
-                               	"Mass: 1.39 Earth Mass",
-                                "Atmosphere Type: Medium Thick",
-                                "Average Temperature: 20°C",
-                                "Seasonal Range: -90°C to 60°C",
-                                "Average Day Length: .8 Earth Days",
-                                "Terrestrial planet with metallic core",
-                                "Supports life"},
-                            {"Jupiter","Diameter: " + planets[4].diameter*1058+ " kilometers",
-                                    "Mass: 14.9 Earth Mass",
-                                    "Atmosphere Type: Thin",
-                                    "Average Temperature: -210°C",
-                                    "Seasonal Range: -225°C to -195°C",
-                                    "Average Day Length: .6 Earth Days",
-                                    "Gas Giant with dense gassy core"},
-                                {"Saturn","Diameter: " + planets[5].diameter*3058+ " kilometers",
-                                    "Mass: 300000 Earth Mass",
-                                    "Average Temperature: 5083°C",
-                                    "Yellow Dwarf, Main-sequence Star"}, 
-                                {"Uranus","Diameter: " + planets[6].diameter*3058+ " kilometers",
-                                        "Mass: 300000 Earth Mass",
-                                        "Average Temperature: 5083°C",
-                                        "Yellow Dwarf, Main-sequence Star"},
-                            {"Neptune","Diameter: " + planets[7].diameter*1058+ " kilometers",
-                                "Mass: 14.9 Earth Mass",
-                                "Atmosphere Type: Thin",
-                                "Average Temperature: -210°C",
-                                "Seasonal Range: -225°C to -195°C",
-                                "Average Day Length: .6 Earth Days",
-                                "Gas Giant with dense gassy core"},
-                            {"Sun","Diameter: " + planets[8].diameter*3058+ " kilometers",
-                                "Mass: 300000 Earth Mass",
-                                "Average Temperature: 5083°C",
-                                "Yellow Dwarf, Main-sequence Star"},
-                         };
-          
-          bimgs[0] = loadImage("mercury.jpg");
-          bimgs[1] = loadImage("Venus.jpg");
-          bimgs[2] = loadImage("bluemarble.jpg");
-          bimgs[3] = loadImage("mars.jpg");
-          bimgs[4] = loadImage("jupiterNasa.jpg");
-          bimgs[5] = loadImage("saturn.jpg");
-          bimgs[6] = loadImage("uranus.jpg");
-          bimgs[7] = loadImage("neptune.jpg");
-          bimgs[8] = loadImage("sun.jpg");
-          
-          
+            celestialBodies[8] = new CelestialBody(600, 400, .1, 0, 1000, 30, Color.ORANGE, 0);//Sun
+            
+                      
+                    
           setBackground(Color.BLACK);
-                    // Create a new thread
-          Thread gameThread =  new Thread() {
-             // Override run() to provide the running behavior of this thread.
-             /* (non-Javadoc)
-             * @see java.lang.Thread#run()
-             */
-            /* (non-Javadoc)
-             * @see java.lang.Thread#run()
-             */
+         
+          description = new String[][]{ 
+              {"Mercury","Diameter: " + celestialBodies[0].getDiameter()*1058+ " kilometers",
+                  "Mass: 0.330 x 10^(24) kg",
+                  "Atmosphere Type: Thin",
+                  "Average Temperature: 167 degrees C",
+                  "Average Day Length: 3.1 Earth Days",
+                  "Inner Planet - Closest to the Sun"},
+              {"Venus","Diameter: " + celestialBodies[1].getDiameter()*1058+ " kilometers",
+                  	 "Mass: 4.87 x 10^(24) kg",
+                       "Atmosphere Type: Medium Thin",
+                       "Average Temperature: 464 degrees C",                             
+                       "Average Day Length: .9 Earth Days",
+                       "Inner Planet - Known as Earth's Twin"
+                  },
+              { "Earth","Diameter: " + celestialBodies[2].getDiameter()*1058+ " kilometers",
+                      "Mass: 5.97 x 10^(24) kg",
+                      "Atmosphere Type: Thin",
+                      "Average Temperature: 15 degrees C",
+                      "Average Day Length: 1 Earth Day",
+                      "Inner Planet - Our Home, the Blue Marble"	
+                 },
+              { "Mars","Diameter: " + celestialBodies[3].getDiameter()*1058+ " kilometers",
+                 	"Mass: 0.642 x 10^(24) kg",
+                  "Atmosphere Type: Medium Thick",
+                  "Average Temperature: -65 degrees C",
+                  "Average Day Length: .8 Earth Days",
+                  " Inner Planet - Known as the Red Planet"
+                  },
+              {"Jupiter","Diameter: " + celestialBodies[4].getDiameter()*1058+ " kilometers",
+                      "Mass: 1898 x 10^(24) kg",
+                      "Atmosphere Type: Thick",
+                      "Average Temperature: -110 degrees C",
+                      "Average Day Length: .6 Earth Days",
+                      "Outer Planet - Largest planet in the Solar System"},
+                  {"Saturn","Diameter: " + celestialBodies[5].getDiameter()*3058+ " kilometers",
+                      "Mass: 568 x 10^(24) kg",
+                      "Average Temperature: -140 degrees C",
+                      "Atmosphere Type: Thick",
+                      "Outer Planet - Known for its Rings"}, 
+                  {"Uranus","Diameter: " + celestialBodies[6].getDiameter()*3058+ " kilometers",
+                          "Mass: 86.8 x 10^(24) kg",
+                          "Atmosphere Type: Thick",
+                          "Average Temperature: -195 degrees C",
+                          "Outer Planet - Interior Composed of Ices and Rock"},
+              {"Neptune","Diameter: " + celestialBodies[7].getDiameter()*1058+ " kilometers",
+                  "Mass: 102 x 10^(24) kg",
+                  "Atmosphere Type: Thin",
+                  "Atmosphere Type: Thick",
+                  "Average Temperature: -200 degrees C",
+                  "Average Day Length: .6 Earth Days",
+                  "Outer Planet - Only planet found by mathematical prediction, not empirical observation"},
+              {"Sun","Diameter: " + celestialBodies[8].getDiameter()*3058+ " kilometers",
+                  "Mass: 1.989 × 10^30 kg",
+                  "Atmosphere Type: Thick",
+                  "Average Temperature: 5505 degrees C",
+                  "Largest Body in the Solar System"},
+           };
+
+           bimgs[0] = getImage("mercury.jpg"); //stackOverflow
+           bimgs[1] = getImage("Venus.jpg");
+           bimgs[2] = getImage("bluemarble.jpg");
+           bimgs[3] = getImage("mars.jpg");
+           bimgs[4] = getImage("jupiterNasa.jpg");
+           bimgs[5] = getImage("saturn.jpg");
+           bimgs[6] = getImage("uranus.jpg");
+           bimgs[7] = getImage("neptune.jpg");
+           bimgs[8] = getImage("sun.jpg");
+           
+
+          Thread thread =  new Thread() {
+     
             @Override
              public void run() {
                 gameLoop();
              }
-          };
-          // Start the thread. start() calls run(), which in turn calls gameLoop().
-          gameThread.start();
+          }; 
+          
+          thread.start();
     }
    
     
-    public static BufferedImage loadImage(String ref) {  
+    public static BufferedImage getImage(String ref) {  //loading the image
         BufferedImage bimg = null;  
         try {  
   
@@ -141,84 +132,82 @@ public class SolarSystemMain extends JPanel
         return bimg;  
     }  
     private void gameLoop() {
-      // Regenerate the game objects for a new game
-   
-      // Game loop
+    	
       while (true) {
-            // Update the state and position of all the game objects,
-            // detect collisions and provide responses.
-            if (!paused)
+            if (!stop)
             {
-                //s.move();
-                for(int i = 0; i < planets.length-1; i++)
+                for(int i = 0; i < celestialBodies.length-1; i++)
                 {
-                    planets[i].update(planets[8].getX(),planets[8].getY(),planets[8].getMass());
+                	celestialBodies[i].update(celestialBodies[8].getXPosition(),celestialBodies[8].getYPosition(),celestialBodies[8].getMass());
                 }
             }
-         // Refresh the display
          repaint();
-         // Delay timer to provide the necessary delay to meet the target rate
 
          try {
-            // Provides the necessary delay and also yields control so that other thread can do work.
             Thread.sleep(DELAY);
          } catch (InterruptedException ex) { }
       }
    }
     
-    public static void main(String[] args)
-    {
-        SwingUtilities.invokeLater(new Runnable() {
-         @Override
-         public void run() {
-            JFrame frame = new JFrame("Solar System Model - Naren Kolli");
-            // Set the content-pane of the JFrame to an instance of main JPanel
-            frame.setContentPane(new SolarSystemMain());  // main JPanel as content pane
-            //frame.setJMenuBar(menuBar);          // menu-bar (if defined)
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setLocationRelativeTo(null); // center the application window
-            frame.setVisible(true);            // show it
-         }
-      });
-    }
-    class GameCanvas extends JPanel implements KeyListener, MouseListener {
-      // Constructor
-      public GameCanvas() {
 
-         setFocusable(true);  // so that this can receive key-events
+    class Model extends JPanel implements KeyListener, MouseListener {
+      public Model() {
+
+         setFocusable(true); //wasn't working, went to stackOverflow for query
          requestFocus();
          addKeyListener(this);
          addMouseListener(this);
       }
 
-      // Override paintComponent to do custom drawing.
-      // Called back by repaint().
-      @Override
+      
       public void paintComponent(Graphics g) {
-         for(Planet p : planets)
-            p.draw(g,scale);
+
+
+         for(CelestialBody body : celestialBodies)
+            body.draw(g,size);
          
-         //following code is for creating stars - will need to work on them pausing
-         Random r = new Random();
-         for(int count=0;count<=100;count++) {
+         //following code is for creating stars 
+         //any more stars, and it got distracting
+         for(int count=0;count<=1000;count++) {
         	 g.setColor(Color.WHITE); 
-        	 g.drawOval(r.nextInt(1500),r.nextInt(1500),1,1);
+        	 
+        	 g.drawOval(50*count,100*count,1,1);
+        	g.drawOval(75*count,100*count,1,1);
+        	
+        	 g.drawOval(100*count,200*count,1,1);
+        	 g.drawOval(150*count,200*count,1,1);
+        	 g.drawOval(200*count,200*count,1,1);
+        	 g.drawOval(250*count,200*count,1,1);
+        	 g.drawOval(300*count,200*count,1,1);
+        	 g.drawOval(350*count,200*count,1,1);
+        	 g.drawOval(400*count,100*count,1,1);
+        	 g.drawOval(450*count,100*count,1,1);
+        	 g.drawOval(500*count,100*count,1,1);
+        	 g.drawOval(550*count,300*count,1,1);
+        	 g.drawOval(600*count,300*count,1,1);
+        	 g.drawOval(700*count,300*count,1,1);
+        	 g.drawOval(800*count,300*count,1,1);
+        	 g.drawOval(900*count,300-count,1,1);
+        	 g.drawOval(1000*count,300-count,1,1);
+
+
+
         	 }
          //
-         for (int i = 0; i < planets.length; i++)
+         
+         for (int i = 0; i < celestialBodies.length; i++)
          {
-             if (planets[i].getDescVisible())
-                planets[i].dispDesc(g,scale);
+             if (celestialBodies[i].getDescVisible())
+            	 celestialBodies[i].dispDesc(g,size);
          }
-         if (selected > -1)
+         if (clicked > -1)
          {
-             g.drawImage(bimgs[selected],0,0,200,200,Color.WHITE,null);
-             g.setFont(new Font("Dialog", Font.PLAIN, 25));
+             g.drawImage(bimgs[clicked],0,0,200,200,Color.WHITE,null);
+             g.setFont(new Font("Arial", Font.PLAIN, 20));
              g.setColor(Color.WHITE);
-             for(int i = 0; i < planetDesc[selected].length; i++)
+             for(int i = 0; i < description[clicked].length; i++)
              {
-                 g.drawString(planetDesc[selected][i], 0, 210+i*30);
+                 g.drawString(description[clicked][i], 0, 210+i*30);
              }
          }
          
@@ -229,11 +218,11 @@ public class SolarSystemMain extends JPanel
         	String zoomOut = "- KEY  =  Zoom Out";
         	 String spaceBar = "SPACEBAR = Pause/Play";
         	 String mouseClick =  "MOUSECLICK = More Info on Planet";
-        	 String planetNumberInfo = "*The Number beside planet is its";
-        	 String planetNumberInfoSecLine = "*distance from the Sun";
+        	 String planetNumberInfo = "~The Number beside planet is its";
+        	 String planetNumberInfoSecLine = "~distance from the Sun";
         	String escape = "ESC = Quit Model";
       
-        g.setFont(new Font("Dialog", Font.PLAIN, 10));
+        g.setFont(new Font("Arial", Font.PLAIN, 10));
         g.setColor(Color.WHITE);
          g.drawString(legend,950,60);
          g.drawString(zoomIn, 950, 100);
@@ -244,59 +233,91 @@ public class SolarSystemMain extends JPanel
          g.drawString(planetNumberInfoSecLine,950,200);
          g.drawString(escape, 950, 220);
          
-         planets[0].dispDesc(g,scale);
-         planets[1].dispDesc(g,scale);
-         planets[2].dispDesc(g,scale);
-         planets[3].dispDesc(g,scale);
-         planets[4].dispDesc(g,scale);
-         planets[5].dispDesc(g,scale);
-         planets[6].dispDesc(g,scale);
-         planets[7].dispDesc(g,scale);
-         planets[8].dispDesc(g,scale);
+         
+         celestialBodies[0].dispDesc(g,size);
+         celestialBodies[1].dispDesc(g,size);
+         celestialBodies[2].dispDesc(g,size);
+         celestialBodies[3].dispDesc(g,size);
+         celestialBodies[4].dispDesc(g,size);
+         celestialBodies[5].dispDesc(g,size);
+         celestialBodies[6].dispDesc(g,size);
+         celestialBodies[7].dispDesc(g,size);
+         celestialBodies[8].dispDesc(g,size);
 
       }
-      @Override
-      public void keyPressed(KeyEvent e) { }
+      
+      public void keyTyped(KeyEvent e) {
+    	  
+      }
+      public void mousePressed(MouseEvent e) {
+    	  
+      }
+      public void mouseReleased(MouseEvent e) {
+          for(int i = 0; i < celestialBodies.length; i++)
+              if (celestialBodies[i].hitPlanet(e.getX(), e.getY(), size))
+              {
+                  
+            	  celestialBodies[i].setDescVisible(!celestialBodies[i].getDescVisible());
+                  if(celestialBodies[i].getDescVisible()) {
+                	  clicked = i;
+                  }
+                  else  {
+                	  clicked = -1;
+                  }
+              }
+      }
+      public void mouseEntered(MouseEvent e) { 
+    	  
+      }
+      public void mouseExited(MouseEvent e) { 
+    	  
+      }
+      public void mouseClicked(MouseEvent e) { 
+    	  
+      }
+      
+      public void keyPressed(KeyEvent e) {
+    	  
+      }
       
       @Override
       public void keyReleased(KeyEvent e) { 
+
+          if(e.getKeyCode() == KeyEvent.VK_PLUS || e.getKeyCode() == KeyEvent.VK_EQUALS)
+        	  size += .1;
+          
+    	  if(e.getKeyCode() == KeyEvent.VK_MINUS && size > 0)
+        	  size -= .1;
+    	  
           if(e.getKeyCode() == KeyEvent.VK_SPACE)
           {
-              paused = !paused;
+              stop = !stop;
           }
           if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
           {
               System.exit(0);
           }
-          if(e.getKeyCode() == KeyEvent.VK_MINUS && scale > 0)
-            scale -= .1;
-          if(e.getKeyCode() == KeyEvent.VK_PLUS || e.getKeyCode() == KeyEvent.VK_EQUALS)
-            scale += .1;
+         
       }
    
-      @Override
-      public void keyTyped(KeyEvent e) { }
-      @Override
-      public void mousePressed(MouseEvent e) { }
-      public void mouseReleased(MouseEvent e) {
-          for(int i = 0; i < planets.length; i++)
-              if (planets[i].containsPt(e.getX(), e.getY(), scale))
-              {
-                  
-                  planets[i].setDescVisible(!planets[i].getDescVisible());
-                  if(planets[i].getDescVisible())
-                    selected = i;
-                  else 
-                    selected = -1;
-              }
-      }
-      @Override
-      public void mouseEntered(MouseEvent e) { }
-      @Override
-      public void mouseExited(MouseEvent e) { }
-      @Override
-      public void mouseClicked(MouseEvent e) { }
+
    }
+    
+    
+    public static void main(String[] args)
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+         @Override
+         public void run() {
+            JFrame frame = new JFrame("Solar System Model - Naren Kolli");
+            frame.setContentPane(new SolarSystemMain());  
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null); 
+            frame.setVisible(true);            
+         }
+      });
+    }
 }
 
 
